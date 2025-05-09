@@ -58,13 +58,8 @@ Zodra de Windows 7 VM klaarstaat, moet je er niets meer aan aanpassen. We gaan n
 
 **IP-adres toekennen aan eth1**
 
-- Open een terminal op Kali en voer het volgende uit:
-
-```bash
-sudo nano /etc/network/interfaces
-```
-
-Voeg hier vervolgens volgende code aan toe:
+1. Open een terminal op Kali en voer het volgende uit: `sudo nano /etc/network/interfaces`
+2. Voeg hier vervolgens volgende code aan toe:
 
 ```bash
 auto eth1
@@ -72,7 +67,8 @@ iface eth1 inet static
     address 10.10.10.3
     netmask 255.255.255.0
 ```
-Herstart nu de Kali Linux VM.
+
+3. Herstart nu de Kali Linux VM.
 
 ### Stap 2: Metasploit
 
