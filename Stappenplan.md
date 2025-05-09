@@ -61,9 +61,18 @@ Zodra de Windows 7 VM klaarstaat, moet je er niets meer aan aanpassen. We gaan n
 - Open een terminal op Kali en voer het volgende uit:
 
 ```bash
-sudo ip addr add 10.10.10.3/24 dev eth1
-sudo ip link set eth1 up
+sudo nano /etc/network/interfaces
 ```
+
+Voeg hier vervolgens volgende code aan toe:
+
+```bash
+auto eth1
+iface eth1 inet static
+    address 10.10.10.3
+    netmask 255.255.255.0
+```
+Herstart nu de Kali Linux VM.
 
 ### Stap 2: Metasploit
 
