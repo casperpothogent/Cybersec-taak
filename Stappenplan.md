@@ -29,7 +29,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 
 - Volg de installatie (klik enkele keren op "Next") en wacht tot Windows volledig geïnstalleerd is.
 - Wanneer Windows geïnstalleerd is, ga naar `file explorer > computer > VirtualBox Guest Additions` op de Windows7-VM en voer het `VBoxWindowsAdditions-amd64.exe` uit.
-- Selecteer alle default-opties van de setup
+- Selecteer alle default-opties van de setup (klik telkens op *Next*)
 - Druk op **reboot now** wanneer dit gevraagd uit
 
 ### Stap 2: RDP inschakelen
@@ -42,20 +42,27 @@ powershell -ExecutionPolicy Bypass -File \enable_rdp.ps1
 ```
 
 - Hiermee worden RDP, ICMP (ping) en poort 3389 automatisch geactiveerd.
-
 - De Windows 7 omgeving is nu volledig klaar voor de aanval.
 
 ## 2. Kali
 
-Zodra de Windows 7 VM klaarstaat, configureer je de KaliVM om zich in hetzelfde interne netwerk te bevinden.
+Zodra de Windows 7 VM klaarstaat, configureer je de KaliVM
 
-### Stap 1: IP-adres toekennen aan eth1
+### Stap 1:  Netwerkconfiguratie
+**Zorgen dat beide VMs in hetzelfde interne netwerk zitten**
+
+- Verander in de VirtualBox settings:
+  - Netwerkadapter 1: default NAT (zodat je internet hebt)
+  - Netwerkadapter 2: *internal network* en selecteer `npe_intnet` 
+
+**IP-adres toekennen aan eth1**
 
 - Open een terminal op Kali en voer het volgende uit:
-  ```bash
-  sudo ip addr add 10.10.10.3/24 dev eth1
-  sudo ip link set eth1 up
-  ```
+
+```bash
+sudo ip addr add 10.10.10.3/24 dev eth1
+sudo ip link set eth1 up
+```
 
 ### Stap 2: Start Metasploit
 
