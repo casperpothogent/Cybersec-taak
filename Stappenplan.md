@@ -29,7 +29,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 
 - Volg de installatie (klik enkele keren op "Next") en wacht tot Windows volledig geïnstalleerd is.
 - Wanneer Windows geïnstalleerd is, ga naar `file explorer > computer > VirtualBox Guest Additions` op de Windows7-VM en voer het `VBoxWindowsAdditions-amd64.exe` uit.
-- Selecteer alle default-opties van de setup (klik telkens op *Next*)
+- Selecteer alle default-opties van de setup (klik telkens op *Next*) en vertrouw de installatie indien je dit scherm krijgt. Klik dan op **Install**.
 - Druk op **reboot now** wanneer dit gevraagd uit
 
 ### Stap 2: RDP inschakelen
